@@ -1,0 +1,190 @@
+diff --git a/main.tex b/main.tex
+index 958406c..c9f5356 100644
+--- a/main.tex
++++ b/main.tex
+@@ -1,4 +1,4 @@
+-\documentclass[sigconf,nonacm]{acmart}
++\documentclass[sigconf]{acmart}
+ 
+ \usepackage{booktabs}
+ \usepackage{array}
+@@ -18,9 +18,17 @@
+ \newcommand{\no}{{\color{red!70!black}$\times$}}
+ \newcommand{\maybe}{{\color{orange!80!black}$\circ$}}
+ 
+-\settopmatter{printacmref=false, printfolios=true}
+-\setcopyright{none}
+-\renewcommand\footnotetextcopyrightpermission[1]{}
++\settopmatter{printacmref=true, printfolios=true}
++
++%% ACM rights/bibstrip block — from ACM Publication Release Confirmation (KDD '26)
++\copyrightyear{2026}
++\acmYear{2026}
++\setcopyright{cc}
++\setcctype{by}
++\acmConference[KDD '26]{Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2}{August 09--13, 2026}{Jeju Island, Republic of Korea}
++\acmBooktitle{Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2 (KDD '26), August 09--13, 2026, Jeju Island, Republic of Korea}
++\acmDOI{10.1145/3770855.3818652}
++\acmISBN{979-8-4007-2259-2/2026/08}
+ 
+ \begin{document}
+ 
+@@ -59,6 +67,30 @@ Our goal is not to present \emph{skills} as a settled solution, but to clarify t
+ 
+ \end{abstract}
+ 
++%% CCS concepts — regenerate at https://dl.acm.org/ccs if you want to adjust
++\begin{CCSXML}
++<ccs2012>
++   <concept>
++       <concept_id>10010147.10010178.10010219.10010221</concept_id>
++       <concept_desc>Computing methodologies~Intelligent agents</concept_desc>
++       <concept_significance>500</concept_significance>
++       </concept>
++   <concept>
++       <concept_id>10010147.10010178.10010179</concept_id>
++       <concept_desc>Computing methodologies~Natural language processing</concept_desc>
++       <concept_significance>300</concept_significance>
++       </concept>
++   <concept>
++       <concept_id>10010147.10010178.10010187</concept_id>
++       <concept_desc>Computing methodologies~Knowledge representation and reasoning</concept_desc>
++       <concept_significance>300</concept_significance>
++       </concept>
++ </ccs2012>
++\end{CCSXML}
++
++\ccsdesc[500]{Computing methodologies~Intelligent agents}
++\ccsdesc[300]{Computing methodologies~Natural language processing}
++\ccsdesc[300]{Computing methodologies~Knowledge representation and reasoning}
+ 
+ \keywords{LLM agents, Agent skills, Agentic AI, Inference-time adaptation } %procedural knowledge, inference-time augmentation, research agenda}
+ 
+@@ -70,7 +102,7 @@ Our goal is not to present \emph{skills} as a settled solution, but to clarify t
+ 
+ \begin{figure}
+     \centering
+-    \includegraphics[width=1\linewidth]{figs/Agent_Skills.pdf}
++    \includegraphics[width=0.99\linewidth]{figs/Agent_Skills.pdf}
+     \vspace{-0.2in}
+     \caption{Agent Skills are a modular approach that injects domain-specific procedural knowledge (scope, instructions, and fallback conditions) into the agent's context at inference time, bridging the gap between knowledge and reliable execution.}
+     \vspace{-0.2in}
+@@ -266,7 +298,7 @@ These results highlight how \emph{skills} can expand agent capabilities by helpi
+ % ================================================================
+ 
+ 
+-\vspace{-4pt}
++\vspace{-6pt}
+ \section{Open Questions}
+ \label{sec:qs}
+ As a new and rapidly growing area, agent \emph{skills} are attracting increasing attention across both research and practice, yet many of their core questions remain unresolved. We identify  10 questions   spanning three broad areas: runtime \emph{skill} use, \emph{skill} construction, and \emph{skill} quality estimation and trust.
+@@ -289,7 +321,7 @@ As a new and rapidly growing area, agent \emph{skills} are attracting increasing
+ 
+ % \paragraph{Window of opportunity.} The skills ecosystem is currently in its early stages, with no dominant standards yet in place. This is the critical window where research acts as a ``GPS'' for the ecosystem. Without the guidance of rigorous research, development often becomes a blind race, leading to costly mistakes and "dead-end" technology paths. By investing in research now—while protocols and governance are still being shaped—we can ensure the development stays on the right track. It is far cheaper to guide the design today than to fix a broken, locked-in system tomorrow.
+ 
+-\vspace{-7pt}
++\vspace{-8pt}
+ \subsection{ Runtime Skills Use}
+ 
+ \hspace{\parindent}\emph{\textbf{Q1: How to select  skills }} % Skill Discovery and Selection.} How to select and sequence Skills from a large-scale registry?}\label{sec:q1}
+@@ -320,8 +352,8 @@ Procedural instructions in \emph{skills} can improve the reliability of agent ou
+ \vspace{+0.04in}
+ \emph{\textbf{Q3: How to prevent skill overreach? }}\label{sec:q3}
+ 
+-Since a loaded \emph{skill} persists across an entire session, its influence may extend beyond its declared scope. For example, a medical diagnosis \emph{skill}  may make an agent more conservative or disclaimer-prone even when it later performs an unrelated task such as code generation. This is not a conflict between multiple \emph{skills} or a failure within the \emph{skill}'s intended scope, but a form of \textbf{behavioral spillover}. Since in-context instructions can shape subsequent outputs~\cite{brown2020language} and prompt format alone can shift accuracy substantially~\cite{sclar2024prompt}, a loaded \emph{skill} may alter the agent’s behavior beyond its intended boundaries. How to detect, quantify, and suppress such spillover is an open question.
+-Simply declaring scope boundaries is unlikely to be sufficient, because a \emph{skill}'s boundaries are themselves just instructions interpreted by the model, not hard execution constraints.
++Since a loaded \emph{skill} persists across an entire session, its influence may extend beyond its declared scope. For example, a medical diagnosis \emph{skill}  may make an agent more conservative or disclaimer-prone even when it later performs an unrelated task such as code generation. This is not a conflict between multiple \emph{skills} or a failure within the \emph{skill}'s intended scope, but a form of \textbf{behavioral spillover}: because in-context instructions and prompt format alone can shift behavior substantially~\cite{brown2020language,sclar2024prompt}, a loaded \emph{skill} may act beyond its intended boundaries. How to detect, quantify, and suppress such spillover is an open question.
++Declaring scope boundaries is insufficient, because a \emph{skill}'s boundaries are themselves instructions interpreted by the model, not hard execution constraints.
+ 
+ \vspace{+0.04in}
+ \emph{\textbf{Q4: Where do skills help most? }}  
+@@ -336,7 +368,7 @@ Therefore, an important open question is where \emph{skills}  can help, and wher
+ %Granularity and Composition Interfaces.} How should the minimal reusable \emph{Skill} unit be defined, and how should multi-\emph{Skill} composition conflicts be resolved?}
+ \label{sec:q5}
+ 
+-A key open question is how granular a skill should be. Too fine-grained, and \emph{skills} become trivial wrappers with fragile and brittle dependencies ~\cite{abdalkareem2017trivial}; too coarse, and they become monolithic, and hard to compose or reuse. In the recipe analogy, the issue is not only whether strawberry cake and blueberry cake should be treated as separate recipes, but also where exactly one recipe should end: at baking, or also at frosting, decoration, and final serving?
++A key open question is how granular a skill should be. Too fine-grained, and \emph{skills} become trivial wrappers with brittle dependencies~\cite{abdalkareem2017trivial}; too coarse, and they become monolithic and hard to compose or reuse. In the recipe analogy, the issue is not only whether strawberry cake and blueberry cake should be treated as separate recipes, but also where exactly one recipe should end: at baking, or also at frosting, decoration, and final serving?
+ 
+ When multiple \emph{skills}  interact, the challenge becomes deeper. Unlike software components, \emph{skills} lack formal type systems: their scope, preconditions, and side effects are expressed in natural language, making conflicts semantic, context-dependent, and difficult to detect automatically. As a result, software granularity conventions~\cite{decan2019emse} may not transfer directly. Skill composition is therefore not just an interface-design problem, but an open NLP problem: how can usable skill boundaries and composition rules be defined   when the ``type system'' is natural language.
+ 
+@@ -350,8 +382,8 @@ When multiple \emph{skills}  interact, the challenge becomes deeper. Unlike soft
+ \vspace{+0.04in}
+ \emph{\textbf{Q6: How to ensure skill portability across  models and environments? }} %How can we ensure that the same Skill can be used across different models and agent frameworks?}\label{sec:q5}
+ 
+-\emph{Skills} are structured prompts, so their behavior depends not only on the written specification but also on the underlying model and execution environment. Like the same recipe used in different kitchens, identical instructions may produce different outcomes because the ovens,'' ingredients,'' and broader operating conditions vary. This makes \emph{skills} inherently vulnerable to both model drift and prompt sensitivity. Prior work shows that GPT-4 accuracy on a simple task dropped from 84\% to 51\% within three months of the same model service~\cite{chen2024chatgptdrift}, and semantically equivalent prompt formats can differ by up to 76 percentage points in accuracy~\cite{sclar2024prompt}.
+-Existing work studies model drift and prompt sensitivity largely in isolation, but \emph{skill} portability is harder because multiple factors interact simultaneously: models may interpret the same instruction differently, required tools may be unavailable, and the target model's knowledge may either overlap with or fall short of what the \emph{skill} assumes. Avoid-lists and tool dependencies require model-specific adaptation: an instruction to ``avoid tool X'' is meaningless if the model does not know X exists. Thus, portability is not literal output matching, but \emph{contract satisfaction}: correct behavior, predictable failure modes, and reliable fallback across diverse settings.
++\emph{Skills} are structured prompts, so their behavior depends not only on the written specification but also on the underlying model and execution environment. Like the same recipe used in different kitchens, identical instructions may produce different outcomes because the ``ovens,'' ``ingredients,'' and broader operating conditions vary. This makes \emph{skills} inherently vulnerable to both model drift and prompt sensitivity. Prior work shows that GPT-4 accuracy on a simple task dropped from 84\% to 51\% within three months of the same model service~\cite{chen2024chatgptdrift}, and semantically equivalent prompt formats can differ by up to 76 percentage points in accuracy~\cite{sclar2024prompt}.
++Existing work studies model drift and prompt sensitivity in isolation, but portability is harder because these factors interact: models may interpret the same instruction differently, required tools may be unavailable, and the target model's knowledge may overlap with or fall short of what the \emph{skill} assumes. Avoid-lists and tool dependencies require model-specific adaptation: an instruction to ``avoid tool X'' is meaningless if the model does not know X exists. Thus, portability is not literal output matching, but \emph{contract satisfaction}: correct behavior, predictable failure modes, and reliable fallback.
+  
+ 
+ %This challenge is similar to following the same recipe in different kitchens: ovens heat differently, salt varies in salinity, and ingredients behave differently in practice, even when the written instructions are identical. Likewise, \emph{Skills} are structured prompts, and their behavior depends not only on the written specification but also on the underlying model and execution environment. They inherit both model drift and prompt sensitivity simultaneously. GPT-4's accuracy on a simple task dropped from 84\% to 51\% within three months of the same model service~\cite{chen2024chatgptdrift}. Accuracy varies by up to 76 percentage points between semantically equivalent prompt formats~\cite{sclar2024prompt}. Roughly one-third of software package releases introduce breaking changes, with 14.5\% doing so in minor or patch versions in violation of semantic versioning conventions~\cite{raemaekers2017semver}. Early evaluations confirm these portability challenges: agent skill frameworks show substantially different effectiveness across 12B--80B parameter models in industrial settings~\cite{xu2026slmskills}.
+@@ -365,7 +397,7 @@ Existing work studies model drift and prompt sensitivity largely in isolation, b
+ 
+ Skills encode non-rival knowledge, but they are costly to create and maintain over time. Their governance challenge is deeper than in traditional open source because the primary bottleneck is often domain expertise rather than coding effort. A clinical diagnostic \emph{skill}, for example, cannot be sustained without medical knowledge. As a result, the most valuable \emph{skills} may also be the most fragile: they depend on rare tacit expertise that is hard to replace once abandoned. Without strong and inclusive governance, \emph{skill} ecosystems may concentrate around a few well-resourced vendors, ultimately recreating the very lock-in that skills were supposed to avoid.
+ 
+-While open-source governance offers useful lessons~\cite{ostrom1990commons,eghbal2016roads}, skills raise additional concerns because their encoded knowledge may be uniquely scarce and irreplaceable. Sixty percent of open-source maintainers are currently unpaid hobbyists~\cite{tidelift2024maintainer}. Among inactive PyPI developers, 75.4\% never issue deprecation notices~\cite{zhong2025deprecation}.  This makes abandonment, privacy, and liability especially important for \emph{skills}. A central open question is how to govern \emph{skills} in ways that sustain valuable expertise while preserving openness, accountability, and long-term access.
++While open-source governance offers useful lessons~\cite{ostrom1990commons,eghbal2016roads}, skills raise additional concerns because their encoded knowledge may be uniquely scarce and irreplaceable. Sixty percent of open-source maintainers are unpaid hobbyists~\cite{tidelift2024maintainer}. Among inactive PyPI developers, 75.4\% never issue deprecation notices~\cite{zhong2025deprecation}.  This makes abandonment, privacy, and liability important for \emph{skills}. A central open question is how to govern \emph{skills} in ways that sustain expertise while preserving openness, accountability, and long-term access.
+ 
+ %Skills encode knowledge that is non-rival (using a \emph{Skill} does not deplete it) but costly to produce and maintain. The governance challenge is deeper than in traditional open source because the \emph{supply-chain bottleneck} differs. A software package can be maintained by any competent developer; a clinical diagnostic \emph{Skill} cannot be maintained without medical expertise. The knowledge supply chain---domain expert $\to$ \emph{Skill}author $\to$ agent $\to$ end user---has its bottleneck at domain expertise, the scarcest and least substitutable resource. This creates an inverse relationship between value and sustainability: the most valuable \emph{Skills} (encoding rare tacit knowledge) are precisely those most vulnerable to abandonment. Without governance, registries and standards will gravitate toward the best-resourced vendor, reproducing the lock-in that \emph{Skills} were meant to avoid.
+ 
+@@ -380,7 +412,7 @@ While open-source governance offers useful lessons~\cite{ostrom1990commons,eghba
+ %How can distributed, domain-specific evaluation scale without succumbing to Goodhart's law?}
+ %\label{sec:q7}
+ 
+-Evaluating a skill is difficult for the same reason that evaluating online recipes is difficult: many alternatives exist, but the right criteria depend on the task, the user’s goals, and the context. Skills make this harder because performance varies widely across domains~\cite{skillsbench2026}, so aggregate metrics are not enough. Meaningful evaluation likely requires domain-specific task suites, failure taxonomies, and success criteria, yet these depend on the same tacit expertise that makes skills valuable. Existing dynamic and community-driven benchmarks~\cite{kiela2021dynabench,srivastava2023beyond,jimenez2024swebench} provide useful precedent, but skills add two challenges: evaluation is tightly tied to domain authorship, and benchmarks may be gamed as skills improve. The open question is how to build evaluation frameworks that are domain-grounded, robust to gaming, and sustainable over time.
++Evaluating a skill is difficult for the same reason that evaluating online recipes is difficult: many alternatives exist, but the right criteria depend on the task, the user’s goals, and the context. Skills make this harder because performance varies widely across domains~\cite{skillsbench2026}, so aggregate metrics are not enough. Meaningful evaluation requires domain-specific task suites, failure taxonomies, and success criteria, yet these depend on the tacit expertise that makes skills valuable. Existing dynamic and community-driven benchmarks~\cite{kiela2021dynabench,srivastava2023beyond,jimenez2024swebench} offer precedent, but skills add two challenges: evaluation is tied to domain authorship, and benchmarks may be gamed as skills improve. The open question is how to build evaluation frameworks that are domain-grounded, robust to gaming, and sustainable.
+ %A persistent challenge, even for something as seemingly simple as online steak recipes, is who should judge among thousands of alternatives and according to what criteria. Skills face the same problem at larger scale: the 12-fold performance spread across domains in SkillsBench~\cite{skillsbench2026} renders aggregate metrics meaningless. Each domain needs its own task suite, failure taxonomy, and expert-defined success criteria. Constructing these benchmarks requires the same tacit knowledge that makes \emph{Skills} valuable. Evaluation is itself a \emph{Skill}.
+ 
+ %Existing dynamic benchmarks (Dynabench~\cite{kiela2021dynabench}), community-contributed evaluations (BIG-Bench~\cite{srivastava2023beyond}), and real-world task extraction (SWE-bench~\cite{jimenez2024swebench}) provide methodological precedent. Two aspects are new in the \emph{Skills} setting. First, domain success criteria depend on tacit knowledge, making evaluation co-dependent with \emph{Skill} authorship. Second, preventing metric-driven gaming (Goodhart's law) requires co-evolutionary benchmarks that update as \emph{Skills} improve, combined with adversarial probing and expert spot-checks.
+@@ -404,7 +436,7 @@ Much like food safety in a kitchen, where raw chicken and salad become dangerous
+ Will skill-based training cause procedural collapse?}}
+ %Skills as Training Data.} Can Skills serve as high-quality training corpora, and how can they be used to evolve the next generation of models?}\label{sec:qx}
+ 
+-As the number of \emph{skills} grows to 400,000~\cite{skillsmp} and even more later, they are increasingly becoming a large-scale training resource. This raises an open question: can \emph{skills} serve as training data for future models, and if so, what can models actually learn from  them? Because \emph{skills} encode canonical procedures, expert-preferred decompositions, and normative task formats, they may overweight already-salient problems while compressing long-tail variation. The risk is greater if models are trained on \emph{skills} without trajectories or other records of situated execution: they may learn procedural templates, but not the fuller behavioral distribution needed for adaptation and recovery. This suggests a possible recursive-training failure mode in which models collapse not only through synthetic data, but toward a narrower and more homogeneous procedural canon~\cite{wu2024generative,shumailov2024ai,jiang2025artificial}. The challenge is how to leverage \emph{skills} to improve models without amplifying monoculture, long-tail loss, or overconvergence.
++As the number of \emph{skills} grows to 400,000~\cite{skillsmp} and growing, they are becoming a large-scale training resource. This raises an open question: can \emph{skills} serve as training data for future models, and if so, what can models learn from them? Because \emph{skills} encode canonical procedures, expert-preferred decompositions, and normative task formats, they may overweight already-salient problems while compressing long-tail variation. The risk is greater if models are trained on \emph{skills} without trajectories or other records of situated execution: they may learn procedural templates, but not the fuller behavioral distribution needed for adaptation and recovery. This suggests a possible recursive-training failure mode in which models collapse not only through synthetic data, but toward a narrower and more homogeneous procedural canon~\cite{wu2024generative,shumailov2024ai,jiang2025artificial}. The challenge is how to leverage \emph{skills} to improve models without amplifying monoculture, long-tail loss, or overconvergence.
+ 
+ 
+ 
+@@ -420,19 +452,19 @@ As the number of \emph{skills} grows to 400,000~\cite{skillsmp} and even more la
+ 
+ \vspace{-8pt}
+ \section{A Call for Contribution}
+-The rapid growth of the skills ecosystem—from a handful of curated packages to over 400,000 public Skills in a matter of months—signals genuine demand. Yet the infrastructure needed to make this ecosystem reliable, safe, and sustainable does not yet exist. We believe that if the research community addresses the open questions outlined in Section 4, the impact on AI agents will unfold across two horizons.
+-In the near term, agents equipped with high-quality, composable \emph{skills} will achieve reliable expert-level execution in specialized domains that raw model scaling cannot reach: a clinical agent that follows verified diagnostic workflows rather than hallucinating procedures, a synthesis planning agent that executes feasible chemical routes rather than plausible-sounding ones, a financial agent that applies precise domain logic rather than approximate reasoning. The gains come not from a larger model, but from procedural expertise loaded on demand.
++The rapid growth of the skills ecosystem—from a handful of curated packages to over 400,000 public Skills in months—signals genuine demand, yet the infrastructure to make it reliable, safe, and sustainable does not yet exist. If the community addresses the open questions in Section 4, the impact will unfold across two horizons.
++In the near term, \emph{skills} let agents reach expert-level execution that raw scaling cannot: a clinical agent that follows verified diagnostic workflows rather than hallucinating procedures, a synthesis agent that executes feasible chemical routes rather than plausible-sounding ones, a financial agent that applies precise domain logic rather than approximate reasoning—gains that come not from a larger model but from procedural expertise loaded on demand.
+ 
+-In the longer term, the \emph{skills} paradigm opens a more ambitious possibility: agents that do not merely consume \emph{skills}, but create, evaluate, and evolve them~\cite{skillrl2026,yang2026autoskill}. An agent that completes a complex task can distill that experience into a reusable \emph{skill}; an agent that observes \emph{skill} failures can revise the procedure; a community of agents can collectively improve a shared \emph{skill} library over time. This self-evolving loop—where agents become both users and authors of procedural knowledge—represents a qualitative shift from static tool use toward a living, self-improving knowledge infrastructure. 
++In the longer term, the paradigm opens an ambitious possibility: agents that not only consume \emph{skills} but create, evaluate, and evolve them~\cite{skillrl2026,yang2026autoskill}—distilling completed tasks into reusable \emph{skills}, revising procedures after failures, and collectively improving a shared library. This self-evolving loop, where agents become both users and authors of procedural knowledge, marks a shift from static tool use toward a living, self-improving knowledge infrastructure.
+ 
+ Realizing either horizon requires foundational research that the community has not yet undertaken. We therefore outline a call for contribution from three complementary perspectives.
+ 
+ \vspace{-0.05in}
+-\paragraph{\textbf{The Skill developer's perspective}} The ask is straightforward: follow emerging standards when authoring \emph{skills}, and share them openly. A \emph{skill} that is well-scoped, clearly documented, and contributed to a public registry does not just help one agent;  it becomes reusable infrastructure for many agents that follows. The more developers treat \emph{skills} as a \textbf{shared knowledge commons} rather than isolated proprietary artifacts, the more quickly the ecosystem can accumulate value.
++\paragraph{\textbf{The Skill developer's perspective}} The ask is simple: follow emerging standards and share \emph{skills} openly. A well-scoped, clearly documented \emph{skill} in a public registry does not just help one agent; it becomes reusable infrastructure for many. The more developers treat \emph{skills} as a \textbf{shared knowledge commons} rather than proprietary artifacts, the faster the ecosystem accumulates value.
+ 
+ \vspace{-0.05in}
+ \paragraph{\textbf{The Skill user's perspective}} 
+-The ask is to treat \emph{skills} as a first-class mechanism for extending agent capability, learn how to select and compose them effectively, and provide feedback when they fail. When a user reports that a \emph{skill} behaves unexpectedly, interferes with adjacent tasks, or breaks under certain conditions, that feedback improves not just one interaction but the reliability of the broader ecosystem.
++The ask is to treat \emph{skills} as a first-class mechanism for extending agent capability, learn to select and compose them effectively, and report failures. When a user reports that a \emph{skill} misbehaves, interferes with adjacent tasks, or breaks under certain conditions, that feedback improves not just one interaction but the reliability of the broader ecosystem.
+ 
+  
+ \vspace{-0.05in}
+@@ -440,7 +472,7 @@ The ask is to treat \emph{skills} as a first-class mechanism for extending agent
+ % 
+ 
+ % \vspace{+0.1in}
+-Whether \emph{skills} ultimately become a lasting systems layer or only a transitional engineering pattern remains an open question. What is already clear, however, is that they force the community to confront a deeper issue: how \textbf{procedural knowledge should be represented, shared, evaluated, and governed in agentic AI}. We hope this paper serves as an invitation to study that question seriously. By doing so, the field has an opportunity not only to make agents more capable, but also to make them more understandable, reusable, and trustworthy in the specialized workflows where they are most needed.
++Whether \emph{skills} become a lasting systems layer or only a transitional pattern remains open. What is already clear is that they force the community to confront a deeper issue: how \textbf{procedural knowledge should be represented, shared, evaluated, and governed in agentic AI}. We hope this paper serves as an invitation to study that question seriously, and in doing so to make agents not only more capable but more understandable, reusable, and trustworthy in the specialized workflows where they are most needed.
+ 
+ %================================================================
+ % §4  RESEARCH ROADMAP
+@@ -459,7 +491,7 @@ Whether \emph{skills} ultimately become a lasting systems layer or only a transi
+ %     \centering
+ %     \includegraphics[width=1\linewidth]{figs/research_roadmap-3.html.pdf}
+ %     \caption{Research Roadmap for Agent Skills Development.}
+-%     \vspace{-0.1in}
++%     \vspace{-0.16in}
+ %     \label{fig:roadmap}
+ % \end{figure*}
+ % The six RQs unfold across three phases as the ecosystem matures. Each phase produces specific outputs that unlock the next.
